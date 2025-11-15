@@ -1,0 +1,17 @@
+Binaries
+DerivedDataCache
+Intermediate
+Saved
+Build
+Platforms
+Plugins/Developer
+.git
+.idea
+.vs
+*.VC.db
+*.opendb
+*.sdf
+*.sln.DotSettings.user
+*.suo
+*.xcodeproj
+*.xcworkspace

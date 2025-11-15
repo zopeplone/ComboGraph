@@ -1,0 +1,26 @@
+﻿using UnrealBuildTool;
+
+public class ComboGraphRuntime : ModuleRules
+{
+    public ComboGraphRuntime(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+
+        PublicDependencyModuleNames.AddRange(
+            new string[]
+            {
+                "Core", "GameplayAbilities"
+            }
+        );
+
+        PrivateDependencyModuleNames.AddRange(
+            new string[]
+            {
+                "CoreUObject",
+                "Engine",
+                "Slate",
+                "SlateCore"
+            }
+        );
+    }
+}
