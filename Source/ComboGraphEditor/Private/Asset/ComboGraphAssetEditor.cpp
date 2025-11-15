@@ -111,15 +111,15 @@ TSharedRef<SDockTab> FComboGraphAssetEditor::SpawnDetailTab(const FSpawnTabArgs&
 TSharedRef<SDockTab> FComboGraphAssetEditor::SpawnGraphTab(const FSpawnTabArgs& Args) 
 {
 	CreateGraphCommands();
+	SGraphEditor::FGraphEditorEvents Events;
+	Events.OnSelectionChanged = SGraphEditor::FOnSelectionChanged::CreateSP(this, &FComboGraphAssetEditor::OnSelectedNodesChanged);
+	Events.OnNodeDoubleClicked = FSingleNodeEvent::CreateSP(this,&FComboGraphAssetEditor::OnNodeDoubleClicked);
 	TSharedRef<SDockTab> SpawnedTab = SNew(SDockTab)
 		.Label(NSLOCTEXT("ComboGraph", "GraphTabTitle", "图表"))
 		[
 			SAssignNew(GraphWidget,SComboGraphEditor,SharedThis(this))
 				.AdditionalCommands(GraphEditorCommands)
-				.GraphEvents({
-					SGraphEditor::FOnSelectionChanged::CreateSP(this, &FComboGraphAssetEditor::OnSelectedNodesChanged),
-					FSingleNodeEvent::CreateSP(this,&FComboGraphAssetEditor::OnNodeDoubleClicked)
-				})
+				.GraphEvents(Events)
 				.IsEditable(true)
 		];
 	
