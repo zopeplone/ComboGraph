@@ -3,12 +3,14 @@
 
 #include "ComboGraphAsset.h"
 
-TObjectPtr<UComboGraphNode> UComboGraphAsset::GetNode(FGuid Id) const
+UComboGraphNode* UComboGraphAsset::GetNode(FGuid Id) const
 {
+	if (!Nodes.Contains(Id)) return nullptr;
 	return *Nodes.Find(Id);
 }
 
-TObjectPtr<UComboGraphEdge> UComboGraphAsset::GetEdge(FGuid Id) const
+UComboGraphEdge* UComboGraphAsset::GetEdge(FGuid Id) const
 {
+	if (!Edges.Contains(Id)) return nullptr;
 	return *Edges.Find(Id);
 }

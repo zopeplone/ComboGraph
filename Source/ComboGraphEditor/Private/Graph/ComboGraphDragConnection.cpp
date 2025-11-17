@@ -48,7 +48,7 @@ void FComboGraphDragConnection::OnDrop(bool bDropWasHandled, const FPointerEvent
 	FGraphEditorDragDropAction::OnDrop(bDropWasHandled, MouseEvent);
 }
 
-FReply FComboGraphDragConnection::DroppedOnPin(FVector2D ScreenPosition, FVector2D GraphPosition)
+FReply FComboGraphDragConnection::DroppedOnPin(const FVector2f& ScreenPosition, const FVector2f& GraphPosition)
 {
 	const FScopedTransaction Transaction(NSLOCTEXT("UnrealEd", "GraphEd_CreateConnection", "Create Pin Link"));
 	UEdGraphPin* PinA = DraggingPin.GetPinObj(*GraphPanel);
@@ -77,8 +77,7 @@ FReply FComboGraphDragConnection::DroppedOnPin(FVector2D ScreenPosition, FVector
 	return FReply::Handled();
 }
 
-FReply FComboGraphDragConnection::DroppedOnPanel(const TSharedRef<SWidget>& Panel, FVector2D ScreenPosition,
-	FVector2D GraphPosition, UEdGraph& Graph)
+FReply FComboGraphDragConnection::DroppedOnPanel(const TSharedRef< SWidget >& Panel, const FVector2f& ScreenPosition, const FVector2f& GraphPosition, UEdGraph& Graph)
 {
 	TArray<UEdGraphPin*> PinObjects {DraggingPin.GetPinObj(*GraphPanel)};
 	// Create a context menu

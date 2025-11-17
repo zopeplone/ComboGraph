@@ -20,9 +20,10 @@ public:
 	friend class UComboGraphLibrary;
 	UPROPERTY(EditDefaultsOnly, Category = "ComboGraph")
 	FString Name;
-	
-	TObjectPtr<UComboGraphNode> GetNode(FGuid Id) const;
-	TObjectPtr<UComboGraphEdge> GetEdge(FGuid Id) const;
+	UFUNCTION(BlueprintCallable, Category = "ComboGraph")
+	UComboGraphNode* GetNode(FGuid Id) const;
+	UFUNCTION(BlueprintCallable, Category = "ComboGraph")
+	UComboGraphEdge* GetEdge(FGuid Id) const;
 private:
 	UPROPERTY()
 	TMap<FGuid, TObjectPtr<UComboGraphNode>> Nodes;

@@ -66,7 +66,7 @@ void UEdComboGraphNode::SaveAsset()
 	for (UEdGraphPin* OutputPin : GetOutputPin()->LinkedTo)
 	{
 		UEdComboGraphEdge* Edge = CastChecked<UEdComboGraphEdge>(OutputPin->GetOwningNode());
-		AssetNode->Input.Add(Edge->NodeGuid, Edge->EdgeAsset);
+		AssetNode->Output.Add(Edge->NodeGuid, Edge->EdgeAsset);
 	}
 }
 

@@ -17,8 +17,8 @@ public:
 	static TSharedRef<FComboGraphDragConnection> New(const TSharedRef<SGraphPanel>& GraphPanelIn, const FGraphPinHandle& DraggedPinIn);
 	virtual void OnDragged(const class FDragDropEvent& DragDropEvent) override;
 	virtual void OnDrop(bool bDropWasHandled, const FPointerEvent& MouseEvent) override;
-	virtual FReply DroppedOnPin(FVector2D ScreenPosition, FVector2D GraphPosition) override;
-	virtual FReply DroppedOnPanel(const TSharedRef<SWidget>& Panel, FVector2D ScreenPosition, FVector2D GraphPosition, UEdGraph& Graph) override;
+	virtual FReply DroppedOnPin(const FVector2f& ScreenPosition, const FVector2f& GraphPosition) override;
+	virtual FReply DroppedOnPanel(const TSharedRef< SWidget >& Panel, const FVector2f& ScreenPosition, const FVector2f& GraphPosition, UEdGraph& Graph) override;
 protected:
 	// Constructor:确保在new之后调用Construct()
 	FComboGraphDragConnection(const TSharedRef<SGraphPanel>& GraphPanel, const FGraphPinHandle& DraggedPin);

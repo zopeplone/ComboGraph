@@ -15,7 +15,7 @@ struct COMBOGRAPHEDITOR_API FComboGraphAssetSchemaAction_NewNode : public FEdGra
 	GENERATED_BODY()
 	
 	TSubclassOf<UEdComboGraphNode> EdNodeClass;
-	virtual UEdGraphNode* PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2D Location, bool bSelectNewNode = true) override;
+	virtual UEdGraphNode* PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2f& Location, bool bSelectNewNode = true) override;
 	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
 	
 };
@@ -25,7 +25,7 @@ struct COMBOGRAPHEDITOR_API FComboGraphAssetSchemaAction_NewEdge : public FEdGra
 {
 	GENERATED_BODY()
 
-	virtual UEdGraphNode* PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2D Location, bool bSelectNewNode = true) override;
+	virtual UEdGraphNode* PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2f& Location, bool bSelectNewNode = true) override;
 	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
 	
 };

@@ -59,7 +59,7 @@ FComboGraphResolveResult UComboGraphLibrary::TryResolveNextNode(const FComboGrap
 	auto CurrentNode = Context.GraphAsset->GetNode(Context.CurrentNodeId);
 	if (!CurrentNode)
 	{
-		UE_LOG(LogTemp,Error,TEXT("%s: CurrentNode Is nullptr"),TEXT(__FUNCTION__));
+		UE_LOG(LogTemp,Error,TEXT("%s: CurrentNode Is nullptr %s"),TEXT(__FUNCTION__),*Context.CurrentNodeId.ToString());
 		return Result;
 	}
 	auto TryResolveAnyNode = [&Result,&Context]()->float
@@ -76,10 +76,12 @@ FComboGraphResolveResult UComboGraphLibrary::TryResolveNextNode(const FComboGrap
 			for (auto& Pair : AnyNode->Output)
 			{
 				bool CanTransitionTo = TryEvaluateEdgeFunc(Context,Pair.Key);
-				if (CanTransitionTo)
+				if (CanTransitionTo && Pair.Value->Sort < MinSort)
 				{
-					MinSort = FMath::Min(MinSort,Pair.Value->Sort);
-					Result.NextNodeId = Pair.Value->Id;
+					MinSort = Pair.Value->Sort;
+					Result.CanEnterNext = true;
+					UComboGraphEdge* ComboGraphEdge = Context.GraphAsset->GetEdge(Pair.Key);
+					Result.NextNodeId = ComboGraphEdge->EndNodeId;
 				}
 			}
 		}
@@ -96,9 +98,11 @@ FComboGraphResolveResult UComboGraphLibrary::TryResolveNextNode(const FComboGrap
 		bool CanTransitionTo = TryEvaluateEdgeFunc(Context,Pair.Key);
 		if (CanTransitionTo)
 		{
+			Result.CanEnterNext = true;
 			if (Pair.Value->Sort < AnyNodeSort)
 			{
-				Result.NextNodeId = Pair.Value->Id;
+				UComboGraphEdge* ComboGraphEdge = Context.GraphAsset->GetEdge(Pair.Key);
+				Result.NextNodeId = ComboGraphEdge->EndNodeId;
 			}
 		}
 	}

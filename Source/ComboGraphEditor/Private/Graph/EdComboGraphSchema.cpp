@@ -15,7 +15,7 @@
 #include "Node/ComboGraphNode.h"
 
 UEdGraphNode* FComboGraphAssetSchemaAction_NewNode::PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin,
-                                                                  const FVector2D Location, bool bSelectNewNode)
+                                                                  const FVector2f& Location, bool bSelectNewNode)
 {
 	UEdComboGraphNode* NewEdNode = NewObject<UEdComboGraphNode>(ParentGraph,EdNodeClass);
 	UEdComboGraph* ComboGraph = Cast<UEdComboGraph>(ParentGraph);
@@ -55,7 +55,7 @@ void FComboGraphAssetSchemaAction_NewNode::AddReferencedObjects(FReferenceCollec
 }
 
 UEdGraphNode* FComboGraphAssetSchemaAction_NewEdge::PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin,
-	const FVector2D Location, bool bSelectNewNode)
+	const FVector2f& Location, bool bSelectNewNode)
 {
 	UEdComboGraphEdge* EdgeTemplate = NewObject<UEdComboGraphEdge>();
 	UEdComboGraph* ComboGraph = Cast<UEdComboGraph>(ParentGraph);
@@ -167,7 +167,7 @@ bool UEdComboGraphSchema::CreateAutomaticConversionNodeAndConnections(UEdGraphPi
 	
 	UEdComboGraph* Graph = CastChecked<UEdComboGraph>(NodeA->GetGraph());
 
-	FVector2D InitPos((NodeA->NodePosX + NodeB->NodePosX) / 2, (NodeA->NodePosY + NodeB->NodePosY) / 2);
+	FVector2f InitPos((NodeA->NodePosX + NodeB->NodePosX) / 2, (NodeA->NodePosY + NodeB->NodePosY) / 2);
 
 	FComboGraphAssetSchemaAction_NewEdge Action;
 	

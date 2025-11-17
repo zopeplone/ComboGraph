@@ -9,9 +9,13 @@ class UComboGraphAsset;
 
 
 UCLASS(BlueprintType,Blueprintable,Abstract)
-class UComboGraphEdgeFuncContext : public UObject
+class COMBOGRAPHRUNTIME_API UComboGraphEdgeFuncContext : public UObject
 {
 	GENERATED_BODY()
+public:
+	// UComboGraphEdgeFuncContext(const FObjectInitializer& ObjectInitializer);
+	virtual ~UComboGraphEdgeFuncContext() override = default;
+	
 	// 留给子类继承
 };
 
