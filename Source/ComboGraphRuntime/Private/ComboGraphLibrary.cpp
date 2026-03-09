@@ -88,7 +88,7 @@ FComboGraphResolveResult UComboGraphLibrary::TryResolveNextNode(const FComboGrap
 		return MinSort;
 	};
 	float AnyNodeSort = TryResolveAnyNode();
-	
+	float ResNodeSort = AnyNodeSort;
 	if (CurrentNode->IsLeafNode())
 	{
 		return Result;
@@ -99,8 +99,9 @@ FComboGraphResolveResult UComboGraphLibrary::TryResolveNextNode(const FComboGrap
 		if (CanTransitionTo)
 		{
 			Result.CanEnterNext = true;
-			if (Pair.Value->Sort < AnyNodeSort)
+			if (Pair.Value->Sort < ResNodeSort)
 			{
+				ResNodeSort = Pair.Value->Sort;
 				UComboGraphEdge* ComboGraphEdge = Context.GraphAsset->GetEdge(Pair.Key);
 				Result.NextNodeId = ComboGraphEdge->EndNodeId;
 			}

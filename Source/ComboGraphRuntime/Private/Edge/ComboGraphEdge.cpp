@@ -7,7 +7,7 @@ UComboGraphAsset* UComboGraphEdge::GetGraph() const
 {
 	return GraphAsset;
 }
-
+#if WITH_EDITOR
 TArray<FName> UComboGraphEdge::GetEdgeFunctionList()
 {
 	TArray<FName> OutNames;
@@ -19,7 +19,8 @@ TArray<FName> UComboGraphEdge::GetEdgeFunctionList()
 	for (TFieldIterator<UFunction> FuncIt(FunctionClass, EFieldIteratorFlags::ExcludeSuper); FuncIt; ++FuncIt)
 	{
 		UFunction* Func = *FuncIt;
-		if (Func->HasAllFunctionFlags(FUNC_Static | FUNC_BlueprintCallable))
+		
+		if (Func->HasAllFunctionFlags(FUNC_BlueprintCallable))
 		{
 			OutNames.Add(Func->GetFName());
 		}
@@ -36,3 +37,4 @@ void UComboGraphEdge::PostEditChangeProperty(struct FPropertyChangedEvent& Prope
 		FunctionName = NAME_None;
 	}
 }
+#endif

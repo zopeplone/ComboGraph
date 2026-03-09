@@ -12,6 +12,8 @@
 #include "Graph/EdComboGraphExecuteNode.h"
 #include "Graph/EdComboGraphNode.h"
 #include "Graph/EdComboGraphRootNode.h"
+#include "Node/ComboGraphAnyNode.h"
+#include "Node/ComboGraphExecuteNode.h"
 #include "Node/ComboGraphNode.h"
 
 UEdGraphNode* FComboGraphAssetSchemaAction_NewNode::PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin,
@@ -40,7 +42,7 @@ UEdGraphNode* FComboGraphAssetSchemaAction_NewNode::PerformAction(class UEdGraph
 	NewEdNode->SetFlags(RF_Transactional);
 
 	// 持久化节点到GraphAsset
-	UComboGraphNode* NodeAsset = NewObject<UComboGraphNode>(ComboGraph->GetComboGraphAsset(),NewEdNode->GetAssetNodeClass());
+	UComboGraphNode* NodeAsset = NewObject<UComboGraphNode>(ComboGraph->GetComboGraphAsset(),NodeAssetClass);
 	
 	NodeAsset->GraphAsset = ComboGraph->GetComboGraphAsset();
 	NewEdNode->SetAssetNode(NodeAsset);
@@ -95,17 +97,25 @@ void FComboGraphAssetSchemaAction_NewEdge::AddReferencedObjects(FReferenceCollec
 
 void UEdComboGraphSchema::GetGraphContextActions(FGraphContextMenuBuilder& ContextMenuBuilder) const
 {
-	auto CreateNodeAction = [&ContextMenuBuilder](TSubclassOf<UEdComboGraphNode> SubClass,FText Description,FText CategoryDes = NSLOCTEXT("ComboGraph", "CreateNodeCategory", "创建新节点"))-> void
+	auto CreateNodeAction = [&ContextMenuBuilder](TSubclassOf<UEdComboGraphNode> SubClass,TSubclassOf<UComboGraphNode> AssetClass,FText Description,FText CategoryDes = NSLOCTEXT("ComboGraph", "CreateNodeCategory", "创建新节点"))-> void
 	{
 		const TSharedPtr<FComboGraphAssetSchemaAction_NewNode> Action = MakeShareable(new FComboGraphAssetSchemaAction_NewNode);
 		Action->EdNodeClass = SubClass;
+		Action->NodeAssetClass = AssetClass;
 		Action->UpdateSearchData(Description,FText(),CategoryDes, FText());
 			
 		ContextMenuBuilder.AddAction(Action);
 	};
 	
-	CreateNodeAction(UEdComboGraphExecuteNode::StaticClass(),NSLOCTEXT("ComboGraph", "ExecuteNodeName", "招式节点"));
-	CreateNodeAction(UEdComboGraphAnyNode::StaticClass(),NSLOCTEXT("ComboGraph", "AnyNodeName", "Any节点"));
+	// CreateNodeAction(UEdComboGraphExecuteNode::StaticClass(),NSLOCTEXT("ComboGraph", "ExecuteNodeName", "招式节点"));
+	TArray<UClass*> ExecuteNodeDerivedClasses;
+	GetDerivedClasses(UComboGraphExecuteNode::StaticClass(), ExecuteNodeDerivedClasses);
+	for (UClass* ExecuteNodeDerivedClass : ExecuteNodeDerivedClasses)
+	{
+		FText Description = ExecuteNodeDerivedClass->GetDefaultObject<UComboGraphExecuteNode>()->GetContextMenuDescription();
+		CreateNodeAction(UEdComboGraphExecuteNode::StaticClass(), ExecuteNodeDerivedClass ,Description);
+	}
+	CreateNodeAction(UEdComboGraphAnyNode::StaticClass(),UComboGraphAnyNode::StaticClass() ,NSLOCTEXT("ComboGraph", "AnyNodeName", "Any节点"));
 	
 	Super::GetGraphContextActions(ContextMenuBuilder);
 }

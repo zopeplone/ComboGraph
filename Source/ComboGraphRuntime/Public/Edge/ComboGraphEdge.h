@@ -8,11 +8,14 @@
 #include "ComboGraphEdge.generated.h"
 
 class UComboGraphAsset;
+
+
 /**
  * 
  */
 UCLASS()
 class COMBOGRAPHRUNTIME_API UComboGraphEdge : public UObject
+
 {
 	GENERATED_BODY()
 public:
@@ -33,15 +36,14 @@ public:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(GetOptions="GetEdgeFunctionList"))
 	FName FunctionName;
-	
 
 	UFUNCTION(BlueprintPure, Category = "ComboGraphEdge")
 	UComboGraphAsset* GetGraph() const;
 
+	
 #if WITH_EDITOR
 	UFUNCTION()
 	TArray<FName> GetEdgeFunctionList();
-	
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 };

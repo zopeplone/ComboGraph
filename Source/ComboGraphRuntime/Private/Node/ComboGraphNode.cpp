@@ -27,7 +27,7 @@ UComboGraphAsset* UComboGraphNode::GetGraph() const
 {
 	return GraphAsset;
 }
-
+#if WITH_EDITOR
 FText UComboGraphNode::GetNodeTitle() const
 {
 	return NodeTitle;
@@ -43,3 +43,4 @@ void UComboGraphNode::PostEditChangeProperty(struct FPropertyChangedEvent& Prope
 	UObject::PostEditChangeProperty(PropertyChangedEvent);
 	GraphAsset->GetEdGraph()->NotifyGraphChanged();
 }
+#endif

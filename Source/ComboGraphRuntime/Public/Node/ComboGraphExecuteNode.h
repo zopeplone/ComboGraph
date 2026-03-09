@@ -18,4 +18,11 @@ public:
 	TObjectPtr<UAnimMontage> Montage;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameplayAbility> Ability;
+#if WITH_EDITOR
+	virtual FText GetContextMenuDescription() const
+	{
+		return NSLOCTEXT("ComboGraph", "ExecuteNodeName", "招式节点");
+	}
+#endif
+	
 };

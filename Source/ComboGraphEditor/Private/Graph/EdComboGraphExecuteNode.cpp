@@ -13,5 +13,5 @@ TSharedPtr<SGraphNode> UEdComboGraphExecuteNode::CreateVisualWidget()
 
 TSubclassOf<UComboGraphNode> UEdComboGraphExecuteNode::GetAssetNodeClass() const
 {
-	return UComboGraphExecuteNode::StaticClass();
+	return AssetNode->StaticClass();
 }

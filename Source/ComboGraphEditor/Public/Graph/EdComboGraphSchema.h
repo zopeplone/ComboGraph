@@ -7,6 +7,7 @@
 #include "EdComboGraphSchema.generated.h"
 
 
+class UComboGraphNode;
 class UEdComboGraphNode;
 
 USTRUCT()
@@ -15,6 +16,7 @@ struct COMBOGRAPHEDITOR_API FComboGraphAssetSchemaAction_NewNode : public FEdGra
 	GENERATED_BODY()
 	
 	TSubclassOf<UEdComboGraphNode> EdNodeClass;
+	TSubclassOf<UComboGraphNode> NodeAssetClass;
 	virtual UEdGraphNode* PerformAction(class UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2f& Location, bool bSelectNewNode = true) override;
 	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
 	
